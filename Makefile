@@ -21,7 +21,7 @@ build:
 
 run:
 	@echo "Starting server..."
-	go run main.go
+	go run .
 
 test:
 	@echo "Running tests..."

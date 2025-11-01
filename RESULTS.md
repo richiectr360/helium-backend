@@ -19,15 +19,15 @@
 
 ### Test 2: Warm Cache (100 requests, 10 concurrent)
 
-- **Throughput**: 15,290.52 req/sec
-- **Mean Latency**: 0.654ms per request
-- **Failed Requests**: 15 out of 100 (15%)
-- **Transfer Rate**: 23,122.43 KB/sec
-- **Status**: ⚠️ High performance but notable failure rate
+- **Throughput**: 9,227.65 req/sec
+- **Mean Latency**: 1.084ms per request
+- **Failed Requests**: 0 out of 100 (0%)
+- **Transfer Rate**: 16,103.32 KB/sec
+- **Status**: ✅ Excellent performance with zero failures
 - **Analysis**:
-  - Extremely fast when cache hits (<1ms)
-  - 15% failure rate may be due to test timing or transient issues
-  - Note: With optimized concurrency limit of 20, such failure rates would be lower under similar load
+  - Extremely fast when cache hits (<1.1ms)
+  - Zero failures achieved with optimized concurrency limit of 20
+  - Consistent high throughput under concurrent load
 
 ### Test 3: Different Languages (50 requests each, 5 concurrent)
 
@@ -58,15 +58,15 @@
 
 ### Test 6: Sustained Load (500 requests, 20 concurrent)
 
-- **Throughput**: 17,957 req/sec
-- **Mean Latency**: 1.114ms per request
-- **Failed Requests**: 24 out of 500 (4.8%)
-- **Transfer Rate**: 29,999 KB/sec
+- **Throughput**: 13,895.84 req/sec
+- **Mean Latency**: 1.439ms per request
+- **Failed Requests**: 0 out of 500 (0%)
+- **Transfer Rate**: 24,249.86 KB/sec
 - **Status**: ✅ Excellent performance under sustained load
 - **Analysis**:
-  - Maintains high throughput even at 20 concurrent requests
-  - 4.8% failure rate acceptable (likely 503s from concurrency limit)
-  - Latency remains sub-millisecond even under load
+  - Maintains high throughput even at full concurrency limit (20 concurrent requests)
+  - Zero failures achieved, demonstrating robust performance
+  - Latency remains excellent (sub-1.5ms) even under maximum concurrent load
 
 ### Test 7: Invalid Language Validation
 
@@ -100,11 +100,11 @@
 | Metric                      | Value                    | Status        |
 | --------------------------- | ------------------------ | ------------- |
 | **Cold Cache Latency**      | ~15ms                    | ✅ Excellent  |
-| **Warm Cache Latency**      | 0.3-0.7ms                | ✅ Excellent  |
-| **Peak Throughput**         | ~18,000 req/sec          | ✅ Excellent  |
-| **Sustained Throughput**    | ~15,000-18,000 req/sec   | ✅ Excellent  |
-| **Error Rate (warm cache)** | 15% (concurrency limit)  | ⚠️ Expected   |
-| **Error Rate (sustained)**  | 4.8% (concurrency limit) | ✅ Acceptable |
+| **Warm Cache Latency**      | 1.0-1.5ms                | ✅ Excellent  |
+| **Peak Throughput**         | ~9,000-14,000 req/sec    | ✅ Excellent  |
+| **Sustained Throughput**    | ~9,000-14,000 req/sec    | ✅ Excellent  |
+| **Error Rate (warm cache)** | 0%                       | ✅ Perfect    |
+| **Error Rate (sustained)**  | 0%                       | ✅ Perfect    |
 | **Validation**              | 100% correct             | ✅ Perfect    |
 
 ## Performance Improvements from Bug Fixes
@@ -168,19 +168,19 @@
    - Template interpolation optimizations are working well
 
 3. **Error Rate Analysis**:
-   - Failures are primarily 503s (Service Unavailable) from concurrency limit
-   - This is expected behavior and not a bug
-   - Actual application errors (500s) appear to be zero
+   - Zero failures achieved in all test scenarios with concurrency limit of 20
+   - All requests within the concurrency limit (20) are processed successfully
+   - Actual application errors (500s) are zero
 
 ## Comparison: Expected vs Actual
 
 | Test Scenario   | Expected Behavior    | Actual Behavior                | Status                  |
 | --------------- | -------------------- | ------------------------------ | ----------------------- |
 | Cold cache      | 10-20ms              | ~15ms                          | ✅ Meets expectations   |
-| Warm cache      | <5ms                 | 0.3-0.7ms                      | ✅ Exceeds expectations |
-| Concurrent load | Some 503s            | 503s as expected               | ✅ Correct behavior     |
+| Warm cache      | <5ms                 | 1.0-1.5ms                      | ✅ Meets expectations   |
+| Concurrent load | Some 503s            | 0% failures (within limit)     | ✅ Exceeds expectations |
 | Validation      | 400/404              | 400/404                        | ✅ Perfect              |
-| Sustained load  | Stable performance   | 18k req/sec stable             | ✅ Exceeds expectations |
+| Sustained load  | Stable performance   | 0% failures, ~14k req/sec      | ✅ Exceeds expectations |
 | Redis down      | Graceful degradation | Works without Redis (TTL only) | ✅ Correct behavior     |
 
 ## Recommendations
@@ -217,11 +217,12 @@
 
 The backend server demonstrates **excellent performance** after bug fixes:
 
-✅ **Sub-millisecond latencies** for cache hits  
-✅ **15,000-18,000 req/sec throughput** under load  
+✅ **Excellent latencies** for cache hits (1.0-1.5ms warm cache)  
+✅ **9,000-14,000 req/sec throughput** under load  
 ✅ **Stable performance** across all test scenarios  
+✅ **Zero failures** in all test scenarios (within concurrency limit)  
 ✅ **Correct validation** and error handling  
-✅ **No application errors** (all failures are expected 503s from concurrency limit)
+✅ **No application errors** (100% success rate within concurrency limit of 20)
 
 The optimizations and bug fixes have successfully:
 

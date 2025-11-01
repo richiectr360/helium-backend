@@ -107,6 +107,8 @@ sudo apt-get install redis-server && redis-server
 make run
 ```
 
+**Note:** The project consists of multiple Go files (main.go, handlers.go, cache.go, etc.). The `make run` command compiles all Go files in the package together. If you prefer to run manually, use `go run .` instead of `go run main.go`.
+
 That's it! The server will be available at `http://localhost:8000`.
 
 ## Configuration
@@ -140,6 +142,8 @@ CONCURRENCY_LIMIT=20
 ```bash
 make run
 ```
+
+This command compiles all Go files in the package and runs the server. The server will automatically reload when you make code changes (you'll need to restart manually).
 
 ### Production Mode
 

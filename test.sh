@@ -16,7 +16,7 @@ curl -s "${BASE_URL}/health" | jq .
 echo -e "\n"
 
 # Test 2: Get component (first time - not cached)
-echo -e "${GREEN}2. Getting Welcome Component (EN) - First Request${NC}"
+echo -e "${GREEN}2. Getting Welcome Component (EN) - First Reqgituest${NC}"
 echo -e "${YELLOW}Expected: cached=false${NC}"
 curl -s "${BASE_URL}/api/component/welcome?lang=en" | jq '{component_name, language, cached}'
 echo -e "\n"
