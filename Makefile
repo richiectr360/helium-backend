@@ -32,7 +32,8 @@ docker-up:
 	docker-compose up -d
 	@echo "Waiting for Redis to be ready..."
 	@sleep 2
-	@echo "Redis is ready at localhost:6379"
+	@echo "Redis is ready at localhost:6380 (mapped from container port 6379)"
+	@echo "Set REDIS_ADDR=localhost:6380 to use this Redis instance"
 
 docker-down:
 	@echo "Stopping Redis..."

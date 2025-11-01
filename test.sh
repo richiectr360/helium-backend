@@ -59,7 +59,7 @@ echo -e "\n"
 
 # Test 10: Concurrent requests test
 echo -e "${GREEN}10. Testing Concurrent Requests (3 simultaneous)${NC}"
-echo -e "${YELLOW}Server has concurrency limit of 2, so one should be rejected${NC}"
+echo -e "${YELLOW}Server has concurrency limit of 20, so all should succeed${NC}"
 for i in {1..3}; do
   (curl -s "${BASE_URL}/api/component/welcome?lang=en" > /dev/null && echo "Request $i: ✅ Success" || echo "Request $i: ❌ Failed") &
 done

@@ -25,6 +25,9 @@ go.work
 *.swo
 *~
 
+# Cursor IDE local history
+.history/
+
 # OS
 .DS_Store
 Thumbs.db
