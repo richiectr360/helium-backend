@@ -4,10 +4,32 @@
 
 - **Server**: Go backend with Gin framework
 - **Test Tool**: Apache Bench (ab)
+- **Test Script**: `loadtest_simple.sh` (automated load testing script)
 - **Base URL**: http://localhost:8000
 - **Concurrency Limit**: 20 (default, configurable via `CONCURRENCY_LIMIT` env var)
   - **Note**: These test results were obtained with the optimized version. The concurrency limit was increased from 2 to 20 as part of the optimizations.
 - **Cache**: TTL cache (10min, 50 entries) + Redis (30min)
+
+## How to Run the Tests
+
+All test results documented below were generated using the `loadtest_simple.sh` script. This script:
+- Uses Apache Bench (`ab`) for HTTP load testing
+- Tests 8 different scenarios (cold cache, warm cache, different languages, different components, concurrency, sustained load, and validation tests)
+- Provides automated metrics extraction (throughput, latency, error rates)
+
+**To reproduce these tests:**
+```bash
+# Start the server first
+make run
+
+# In another terminal, run the load test script
+./loadtest_simple.sh
+```
+
+**Available Testing Scripts:**
+- **`loadtest_simple.sh`** (used for these results): Quick load testing with Apache Bench, 8 test scenarios
+- **`loadtest.sh`**: More comprehensive load testing script with percentile calculations and detailed timing metrics
+- **`test.sh`**: Functional test script for endpoint validation and correctness testing (not load testing)
 
 ## Test Results Summary
 
@@ -208,6 +230,7 @@
 
 ### 4. Load Testing
 
+- **Test Scripts Used**: Results were generated using `loadtest_simple.sh` which uses Apache Bench (ab) for HTTP load testing
 - ✅ Redis down scenario verified (code has proper nil checks)
 - Run longer duration tests (5-10 minutes) to check for memory leaks
 - Test with much higher concurrent requests (100+) to find breaking point
